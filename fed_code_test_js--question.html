@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script>
+
+    /*
+      The task: Refactor this function.
+
+      With this task, we want to understand your solution, so: the code changes you made and why you made them, identification of any issues or underperformance of the original function, and code comments to provide valuable insight for other developers.
+
+      In production, the function:
+       - Takes two arrays and returns a new array of unique values from both arrays
+       - It is a shared utility, and is called very frequently in clientside code
+
+      The quality of the code should:
+       - Conform to ES6
+       - Be performant
+       - Be understandable
+       - Include appropriate comments.
+    */
+
+    /*
+      Issues:
+        Poor naming conventions
+        Use of var instead of let or const
+        Array index variables are not readable
+        Keeps checking the entire first array even after a dupe has been found
+        The equality test fails when comparing objects 
+    */
+
+      function m(l1, l2) {
+      var u = [];
+      for (var i = 0; i < l1.length; i++) {
+        u.push(l1[i]);
+      }
+      for (var j = 0; j < l2.length; j++) {
+        var dupe = false;
+        for (var i = 0; i < l1.length; i++) {
+          if (l1[i] === l2[j]) {
+            dupe = true;
+          }
+        }
+        if (!dupe) {
+          u.push(l2[j]);
+        }
+      }
+      return u;
+    }
+
+    /*
+      The main drawback of the following approach is that it still fails when the arrays contains objects. 
+      includes() does not check if an object is a deep copy of another.
+      However I have still included this solution because it is faster and easier to read as long as none of the array items are objects.
+      I also avoided mutating the original inputs.
+    */
+
+    function combineArrays(array1, array2) {
+      //find values from array2 that don't appear in array1
+      const array2filtered = array2.filter(array2Item => !array1.includes(array2Item));
+      return [...array1, ...array2filtered];
+    }
+    console.log(combineArrays([1, 2, 3], [3, 4, 5]))
+
+    /*
+      This takes a similar approach but uses the lodash isEqual function.
+      This allows for object comparison.
+      It uses a "for of" statement to avoid array indices and improve readability 
+      The if statement returns early if a match is found, improving performance.
+      The lodash library is a significant dependency, but this could be optimised in production.
+    */
+
+    function combineArraysOfObjects(array1, array2) {
+      //find values from array2 that don't appear in array1
+      const array2filtered = array2.filter(array2Item => {
+        for (let array1Item of array1) {
+          if (_.isEqual(array1Item, array2Item)) {
+            return false;
+          }
+        }
+        return true;
+      })
+      return [...array1, ...array2filtered];
+    }
+    console.log(combineArraysOfObjects([{ half: 5 }, { one: "one" }, 2, 3], [3, 4, { one: "one" }, 5, { "obj": "obj" }, { half: 5 }]))
+
+    /*
+      A search algorithm could improve performance for very large arrays, but this seems overengineered.
+      These solutions don't address duplicate values within the same array.
+    */
+
+  </script>
+</head>
+
+<body />
+
+</html>

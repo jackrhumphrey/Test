@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <style type="text/css">
+    /*
+        The task: Refactor the menu.
+
+        With this task, we want to understand your approach to limiting negative effects of CSS' cascade and specificity, and writing quality markup.
+
+        In production, the component should:
+         - Be a simple menu structure
+         - Avoid potential style conflicts with other similar structures
+         - Supports IE11 and Safari 11.1 as the lowest baseline.
+
+        The quality of the code should:
+         - Clearly describe what it is
+         - Follow the BEM methodology (feel free to write as SCSS or plain CSS)
+         - Use appropriate, accessible markup for its use as a menu
+    */
+
+    .menu {
+      list-style-type: none;
+      display: inline-block;
+      display: inline flow-root;
+    }
+
+    .menu__item {
+      background: lime;
+      font-size: 2em;
+      margin: 8px;
+      padding: 8px;
+    }
+
+    .menu__link {
+      background: lightgreen;
+    }
+
+    .menu__link--selected {
+      background: salmon;
+    }
+  </style>
+</head>
+
+<body>
+  <menu class="menu">
+    <li class="menu__item">
+      <a href="#" class="menu__link">Menu item 1</a>
+    </li>
+    <li class="menu__item">
+      <a href="#" class="menu__link menu__link--selected" selected>Menu item 2</a>
+    </li>
+    <li class="menu__item">
+      <a href="#" class="menu__link">Menu item 3</a>
+    </li>
+  </menu>
+</body>
+
+</html>
